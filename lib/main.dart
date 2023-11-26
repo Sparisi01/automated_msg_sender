@@ -70,7 +70,7 @@ class _SendSmsState extends State<SendSms> {
     Widget finishButton = TextButton(
       child: Text("Finito"),
       style: TextButton.styleFrom(
-          backgroundColor: Colors.green, primary: Colors.white),
+          backgroundColor: Colors.green, foregroundColor: Colors.white),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -98,7 +98,7 @@ class _SendSmsState extends State<SendSms> {
     Widget cancelButton = TextButton(
       child: Text("Annulla"),
       style: TextButton.styleFrom(
-          backgroundColor: Colors.redAccent, primary: Colors.white),
+          backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -109,9 +109,10 @@ class _SendSmsState extends State<SendSms> {
       onPressed: () async {
         try {
           for (User user in users) {
-            await Future.delayed(
-                Duration(milliseconds: dotenv.env['DELAY'] as int));
-            sendSms(user);
+            print(dotenv.env['DELAY']);
+            await Future.delayed(Duration(
+                    milliseconds: int.parse(dotenv.env['DELAY'] as String)))
+                .then((value) => sendSms(user));
           }
           Navigator.of(context).pop();
           showConfirmDialog(context);
@@ -125,7 +126,7 @@ class _SendSmsState extends State<SendSms> {
     Widget testButton = TextButton(
       child: Text("Ricevi Anteprima"),
       style: TextButton.styleFrom(
-          backgroundColor: Colors.green, primary: Colors.white),
+          backgroundColor: Colors.green, foregroundColor: Colors.white),
       onPressed: () {
         sendSms(User(
             name: "Stefano",
@@ -221,7 +222,8 @@ class _SendSmsState extends State<SendSms> {
                     style: TextStyle(fontSize: 18),
                   ),
                   style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue, primary: Colors.white),
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white),
                 ),
               ),
               SizedBox(height: 20),
