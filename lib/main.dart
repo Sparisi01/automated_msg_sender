@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'package:appmessaggi/error_page.dart';
-import 'package:appmessaggi/loading_page.dart';
-import 'package:appmessaggi/show_users.dart';
-import 'package:appmessaggi/user.dart';
+import 'package:appmessaggi/pages/error_page.dart';
+import 'package:appmessaggi/pages/loading_page.dart';
+import 'package:appmessaggi/class/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'components/users_list.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(new MaterialApp(
     title: "Send Message App",
     initialRoute: '/loading',
@@ -104,9 +106,11 @@ class _SendSmsState extends State<SendSms> {
 
     Widget continueButton = TextButton(
       child: Text("Continua"),
-      onPressed: () {
+      onPressed: () async {
         try {
           for (User user in users) {
+            await Future.delayed(
+                Duration(milliseconds: dotenv.env['DELAY'] as int));
             sendSms(user);
           }
           Navigator.of(context).pop();
